@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ContactCompanyController;
 use App\Http\Controllers\Admin\ContactContactController;
 use App\Http\Controllers\Admin\HomeController;
@@ -34,4 +35,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
 
     // Transactions
     Route::resource('transactions', TransactionController::class, ['except' => ['store', 'update', 'destroy']]);
+
+    // Category
+
+    Route::resource('category', CategoryController::class, ['except' => ['store', 'update', 'destroy']]);
 });

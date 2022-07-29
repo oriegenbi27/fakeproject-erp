@@ -1,15 +1,17 @@
 <div wire:ignore>
-    <div class="flatpickr flatpickr-{{ $attributes['id'] }} relative">
-        @if (!isset($attributes['required']))
+    <div class="flatpickr flatpickr-{{ $attributes['id'] }} relative ">
+        @if (empty($attributes['required']))
             <div class="absolute inset-y-0 left-0 flex items-center">
                 <button id="clear-{{ $attributes['id'] }}" type="button" class="text-rose-600 w-10 h-full" data-clear>
-                    <i class="far fa-times-circle"></i>
+                    {{-- <i class="far fa-times-circle"></i> --}}
                 </button>
             </div>
         @endif
 
-        <input type="text" class="form-control" {{ $attributes }} data-input>
+        <input type="date" class="form-control" {{ $attributes }} data-input>
     </div>
+
+
 </div>
 
 @push('scripts')
@@ -31,7 +33,7 @@
                 @this.set('{{ $attributes['wire:model'] }}', value)
             }
 
-            @if ($attributes['picker'] === 'date')
+            if ($attributes['picker'] === 'date')
                 let el = flatpickr('.flatpickr-{{ $attributes['id'] }}', {
                     dateFormat: "{{ config('project.flatpickr_date_format') }}",
                     wrap: true,
@@ -42,23 +44,22 @@
                         update(DateStr)
                     }
                 })
-            @elseif
-                ($attributes['picker'] === 'time')
-                let el = flatpickr('.flatpickr-{{ $attributes['id'] }}', {
-                    enableTime: true,
-                    // enableSeconds: true,
-                    noCalendar: true,
-                    time_24hr: true,
-                    wrap: true,
-                    dateFormat: "{{ config('project.flatpickr_time_format') }}",
-                    onChange: (SelectedDates, DateStr, instance) => {
-                        update(DateStr)
-                    },
-                    onReady: (SelectedDates, DateStr, instance) => {
-                        update(DateStr)
-                    }
-                })
-            @else
+            elseif($attributes['picker'] === 'time')
+            let el = flatpickr('.flatpickr-{{ $attributes['id'] }}', {
+                enableTime: true,
+                // enableSeconds: true,
+                noCalendar: true,
+                time_24hr: true,
+                wrap: true,
+                dateFormat: "{{ config('project.flatpickr_time_format') }}",
+                onChange: (SelectedDates, DateStr, instance) => {
+                    update(DateStr)
+                },
+                onReady: (SelectedDates, DateStr, instance) => {
+                    update(DateStr)
+                }
+            })
+            else
                 let el = flatpickr('.flatpickr-{{ $attributes['id'] }}', {
                     enableTime: true,
                     time_24hr: true,
@@ -72,7 +73,7 @@
                         update(DateStr)
                     }
                 })
-            @endif
+            endif
         });
     </script>
 @endpush

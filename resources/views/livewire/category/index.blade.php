@@ -24,58 +24,68 @@
         Loading...
     </div>
     <table class="table table-index w-full text-center">
-        <thead>
+        <thead class="text-center">
             <tr>
                 <th class="w-9">
                 </th>
-                <th class="w-28 ">
-                    {{ trans('cruds.transaction.fields.id') }}
+                <th class="w-28">
+                    {{ trans('cruds.category.fields.id') }}
                     @include('components.table.sort', ['field' => 'id'])
                 </th>
                 <th>
-                    {{ trans('cruds.transaction.fields.amount') }}
-                    @include('components.table.sort', ['field' => 'amount'])
+                    {{ trans('cruds.category.fields.name') }}
+                    @include('components.table.sort', ['field' => 'name'])
                 </th>
                 <th>
-                    {{ trans('cruds.transaction.fields.transaction_date') }}
-                    @include('components.table.sort', ['field' => 'transaction_date'])
+                    {{ trans('cruds.category.fields.slug') }}
+                    @include('components.table.sort', ['field' => 'slug'])
+                </th>
+                <th>
+                    {{ trans('cruds.category.fields.created_at') }}
+                    @include('components.table.sort', ['field' => 'created_at'])
+                </th>
+                <th>
+                    Action
                 </th>
                 <th>
                 </th>
             </tr>
         </thead>
         <tbody>
-            @forelse($transactions as $transaction)
+            @forelse($category as $categories)
                 <tr>
                     <td>
-                        <input type="checkbox" value="{{ $transaction->id }}" wire:model="selected">
+                        <input type="checkbox" value="{{ $categories->id }}" wire:model="selected">
                     </td>
                     <td>
-                        {{ $transaction->id }}
+                        {{ $categories->id }}
                     </td>
                     <td>
-                        Rp. {{ number_format($transaction->amount) }}
+                        {{ $categories->name }}
                     </td>
                     <td>
-                        {{ $transaction->transaction_date }}
+                        {{ $categories->slug }}
                     </td>
                     <td>
-                        <div class="flex justify-end">
-                            @can('transaction_show')
-                                <a class="btn btn-sm btn-info mr-2"
-                                    href="{{ route('admin.transactions.show', $transaction) }}">
+                        {{ $categories->created_at }}
+                    </td>
+
+                    <td>
+                        <div class="flex justify-center">
+                            @can('category_show')
+                                <a class="btn btn-sm btn-info mr-2" href="{{ route('admin.category.show', $categories) }}">
                                     {{ trans('global.view') }}
                                 </a>
                             @endcan
-                            @can('transaction_edit')
+                            @can('category_edit')
                                 <a class="btn btn-sm btn-success mr-2"
-                                    href="{{ route('admin.transactions.edit', $transaction) }}">
+                                    href="{{ route('admin.category.edit', $categories) }}">
                                     {{ trans('global.edit') }}
                                 </a>
                             @endcan
-                            @can('transaction_delete')
+                            @can('category_delete')
                                 <button class="btn btn-sm btn-rose mr-2" type="button"
-                                    wire:click="confirm('delete', {{ $transaction->id }})" wire:loading.attr="disabled">
+                                    wire:click="confirm('delete', {{ $categories->id }})" wire:loading.attr="disabled">
                                     {{ trans('global.delete') }}
                                 </button>
                             @endcan
@@ -100,7 +110,7 @@
                     {{ __('Entries selected') }}
                 </p>
             @endif
-            {{ $transactions->links() }}
+            {{ $category->links() }}
         </div>
     </div>
 </div>

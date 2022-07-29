@@ -127,6 +127,16 @@
                         </a>
                     </li>
                 @endcan
+                @can('category_access')
+                    <li class="items-center">
+                        <a class="{{ request()->is('admin/category*') ? 'sidebar-nav-active' : 'sidebar-nav' }}"
+                            href="{{ route('admin.category.index') }}">
+                            <i class="fa-fw c-sidebar-nav-icon fas fa-cogs">
+                            </i>
+                            {{ trans('cruds.category.title') }}
+                        </a>
+                    </li>
+                @endcan
 
                 @if (file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php')))
                     @can('profile_password_edit')
